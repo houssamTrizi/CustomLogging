@@ -1,0 +1,38 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: '%(asctime)s %(thread)d %(levelname)-8s %(name)-15s %(message)s'
+  api:
+    format: '%(routeName)s %(correlationId)d %(logOrder)d %(levelname)-8s  %(message)s -- %(messageTemplate)s'
+
+adapters:
+
+handlers:
+  api_handler:
+    class: logging.StreamHandler
+    formatter: api
+    level: INFO
+    stream: ext://sys.stdout
+  standard_handler:
+
+    class: logging.StreamHandler
+    formatter: standard
+    level: INFO
+    stream: ext://sys.stdout
+loggers:
+  api:
+    # other configuration for logger 'foo.bar.baz'
+    level: INFO
+    handlers: [api_handler]
+    propagate: no
+  server:
+    level: INFO
+    handlers: [standard_handler]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [standard_handler]
+  proagate: no
